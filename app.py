@@ -1,3 +1,4 @@
+import keyboard
 import pyautogui as pygui
 import openpyxl as opxl
 import pyperclip as clip
@@ -44,80 +45,89 @@ except Exception as e:
     quit()
 
 # Process each row in the Excel sheet
-for row in sheet_products.iter_rows(min_row=2):
-    try:
-        product_name = row[0].value
-        logging.info(f"Processing product: {product_name}")
-        copy_and_paste(product_name, 435, 326)
+try:
+    for row in sheet_products.iter_rows(min_row=2):
+        # Check if the Esc key is pressed
+        if keyboard.is_pressed("esc"):
+            logging.info("Esc key pressed. Exiting script...")
+            break
 
-        description = row[1].value
-        copy_and_paste(description, 448, 434)
+        try:
+            product_name = row[0].value
+            logging.info(f"Processing product: {product_name}")
+            copy_and_paste(product_name, 435, 326)
 
-        category = row[2].value
-        copy_and_paste(category, 441, 545)
+            description = row[1].value
+            copy_and_paste(description, 448, 434)
 
-        code = row[3].value
-        copy_and_paste(code, 449, 632)
+            category = row[2].value
+            copy_and_paste(category, 441, 545)
 
-        kg_weight = row[4].value
-        copy_and_paste(kg_weight, 444, 720)
+            code = row[3].value
+            copy_and_paste(code, 449, 632)
 
-        dimensions_lap = row[5].value  # lap = L x A x P (Length x Height x Depth)
-        copy_and_paste(dimensions_lap, 448, 806)
+            kg_weight = row[4].value
+            copy_and_paste(kg_weight, 444, 720)
 
-        click_with_logging(447, 865)
-        sleep(3)
+            dimensions_lap = row[5].value  # lap = L x A x P (Length x Height x Depth)
+            copy_and_paste(dimensions_lap, 448, 806)
 
-        price = row[6].value
-        copy_and_paste(price, 443, 350)
+            click_with_logging(447, 865)
+            sleep(3)
 
-        quantity = row[7].value
-        copy_and_paste(quantity, 445, 437)
+            price = row[6].value
+            copy_and_paste(price, 443, 350)
 
-        valid_date = row[8].value
-        copy_and_paste(valid_date, 447, 519)
+            quantity = row[7].value
+            copy_and_paste(quantity, 445, 437)
 
-        color = row[9].value
-        copy_and_paste(color, 443, 605)
+            valid_date = row[8].value
+            copy_and_paste(valid_date, 447, 519)
 
-        size = row[10].value
-        click_with_logging(446, 692)
-        if size == "Pequeno":
-            click_with_logging(446, 735)
-        elif size == "Médio":
-            click_with_logging(446, 754)
-        elif size == "Grande":
-            click_with_logging(446, 787)
-        else:
-            logging.warning(f"Unexpected size value: {size}")
+            color = row[9].value
+            copy_and_paste(color, 443, 605)
 
-        material = row[11].value
-        copy_and_paste(material, 440, 781)
+            size = row[10].value
+            click_with_logging(446, 692)
+            if size == "Pequeno":
+                click_with_logging(446, 735)
+            elif size == "Médio":
+                click_with_logging(446, 754)
+            elif size == "Grande":
+                click_with_logging(446, 787)
+            else:
+                logging.warning(f"Unexpected size value: {size}")
 
-        click_with_logging(444, 839)
-        sleep(3)
+            material = row[11].value
+            copy_and_paste(material, 440, 781)
 
-        producer = row[12].value
-        copy_and_paste(producer, 427, 368)
+            click_with_logging(444, 839)
+            sleep(3)
 
-        origin_country = row[13].value
-        copy_and_paste(origin_country, 433, 455)
+            producer = row[12].value
+            copy_and_paste(producer, 427, 368)
 
-        observations = row[14].value
-        copy_and_paste(observations, 439, 549)
+            origin_country = row[13].value
+            copy_and_paste(origin_country, 433, 455)
 
-        bars_code = row[15].value
-        copy_and_paste(bars_code, 441, 672)
+            observations = row[14].value
+            copy_and_paste(observations, 439, 549)
 
-        warehouse_location = row[16].value
-        copy_and_paste(warehouse_location, 446, 762)
+            bars_code = row[15].value
+            copy_and_paste(bars_code, 441, 672)
 
-        click_with_logging(451, 821)
-        click_with_logging(853, 592)
-        click_with_logging(856, 591)
-        click_with_logging(1047, 596)
+            warehouse_location = row[16].value
+            copy_and_paste(warehouse_location, 446, 762)
 
-    except Exception as e:
-        logging.error(f"Error processing row: {e}")
+            click_with_logging(451, 821)
+            click_with_logging(853, 592)
+            click_with_logging(856, 591)
+            click_with_logging(1047, 596)
+
+        except Exception as e:
+            logging.error(f"Error processing row: {e}")
+
+except KeyboardInterrupt:
+    logging.info("Script interrupted by user. Exiting...")
 
 logging.info("Script finished.")
